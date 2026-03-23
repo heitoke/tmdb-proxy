@@ -1,0 +1,26 @@
+{
+  "name": "tmdb-proxy",
+  "version": "0.0.1",
+  "description": "TMDB Proxy for SeenIt",
+  "license": "MIT",
+  "author": "heitoke",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "tmdb",
+    "proxy",
+    "vercel",
+    "seenit",
+    "express"
+  ],
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}
