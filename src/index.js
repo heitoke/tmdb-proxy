@@ -56,7 +56,7 @@ app.get('/images/*slug', async (req, res) => {
     }
 
     try {
-        const response = await fetch(`${TMDB_IMAGES_URL}/${req.params.slug}`);
+        const response = await fetch(`${TMDB_IMAGES_URL}/${req.params.slug.join('/')}`);
 
         if (!response.ok) {
             return res.status(response.status).send(response.statusText);
@@ -164,4 +164,5 @@ app.use((req, res) => {
 });
 
 
-export default app;
+// export default app;
+app.listen(4321)
