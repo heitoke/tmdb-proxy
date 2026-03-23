@@ -24,9 +24,9 @@ app.get('/', (req, res) => {
         description: 'Proxy server for The Movie Database (TMDB) API',
         usage: 'Use any TMDB API endpoint after the domain',
         examples: [
-            `${req.protocol}://${req.get('host')}/search/multi?query=avatar`,
-            `${req.protocol}://${req.get('host')}/movie/550`,
-            `${req.protocol}://${req.get('host')}/tv/1399`
+            `${req.protocol}://${req.get('host')}/api/search/multi?query=avatar`,
+            `${req.protocol}://${req.get('host')}/api/movie/550`,
+            `${req.protocol}://${req.get('host')}/api/tv/1399`
         ],
         note: `All requests are proxied to https://api.themoviedb.org/3/`,
         documentation: `https://developer.themoviedb.org/reference/intro/getting-started`,
@@ -46,8 +46,8 @@ app.get('/ping', (req, res) => {
     });
 });
 
-app.get('/images/:slug', async (req, res) => {
-    if (!proxyUrls.includes('images') && !proxyUrls.includes('image')) {
+app.get('/images/*slug', async (req, res) => {
+    if (TMDB_IMAGES_URL && !proxyUrls.includes('images') && !proxyUrls.includes('image')) {
         res.status(404).json({
             message: 'This function was not found.'
         });
@@ -79,13 +79,14 @@ app.get('/images/:slug', async (req, res) => {
 });
 
 app.all('/api/*path', async (req, res) => {
-    if (!proxyUrls.includes('api')) {
+    if (TMDB_API_URL && !proxyUrls.includes('api')) {
         res.status(404).json({
             message: 'This function was not found.'
         });
 
         return;
     }
+
     try {
         const path = req.path;
         
@@ -109,7 +110,7 @@ app.all('/api/*path', async (req, res) => {
             queryParams.append('language', TMDB_DEFAULT_LANG);
         }
         
-        const tmdbUrl = `${TMDB_BASE_URL}/${tmdbPath}?${queryParams.toString()}`;
+        const tmdbUrl = `${TMDB_API_URL}/${tmdbPath}?${queryParams.toString()}`;
         
         console.log(`📡 Proxying: ${req.method} ${path} → ${tmdbUrl.replace(TMDB_API_KEY, '***')}`);
         
