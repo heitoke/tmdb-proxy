@@ -56,7 +56,7 @@ app.get('/images/*slug', async (req, res) => {
     }
 
     try {
-        const response = await fetch(`${TMDB_IMAGES_URL}/${slug}`);
+        const response = await fetch(`${TMDB_IMAGES_URL}/${req.params.slug}`);
 
         if (!response.ok) {
             return res.status(response.status).send(response.statusText);
