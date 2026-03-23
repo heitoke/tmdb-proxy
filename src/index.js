@@ -73,12 +73,12 @@ app.get('/images/:slug', async (req, res) => {
         res.send(buffer);
     } catch (error) {
         console.error('Proxy image error:', error);
-        
+
         res.status(500).send('Failed to fetch the image');
     }
 });
 
-app.all('/api/*', async (req, res) => {
+app.all('/api/*path', async (req, res) => {
     if (!proxyUrls.includes('api')) {
         res.status(404).json({
             message: 'This function was not found.'
